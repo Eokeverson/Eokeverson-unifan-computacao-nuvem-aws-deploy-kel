@@ -10,7 +10,7 @@
   "keywords": ["express", "mysql", "s3", "crud"],
   "license": "MIT",
   "dependencies": {
-    "aws-sdk": "^2.1691.0",
+    "@aws-sdk/client-s3": "^3.1120.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
