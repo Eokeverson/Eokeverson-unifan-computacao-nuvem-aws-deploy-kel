@@ -50,7 +50,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
-          envs: ECR_REGISTRY,ECR_REPOSITORY,DB_HOST,DB_USER,DB_PASSWORD,DB_NAME,AWS_REGION,AWS_S3_BUCKET_NAME
+          envs: ECR_REGISTRY,ECR_REPOSITORY,DB_HOST,DB_USER,DB_PASSWORD,DB_NAME,AWS_REGION,AWS_S3_BUCKET_NAME,CONTAINER_NAME,IMAGE_TAG
           script: |
             # Login no ECR a partir da EC2 (usa a IAM Role anexada a instancia)
             aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
