@@ -46,6 +46,7 @@ jobs:
           AWS_REGION: ${{ secrets.AWS_REGION }}
           AWS_S3_BUCKET_NAME: ${{ secrets.AWS_S3_BUCKET_NAME }}
           CONTAINER_NAME: api-backend-${{ github.actor }}
+          IMAGE_TAG: ${{ github.actor }}-v1.0.${{ github.run_number }}
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
