@@ -27,7 +27,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
-          IMAGE_TAG: v1.0.${{ github.run_number }} # Versionamento semantico simples
+          IMAGE_TAG: ${{ github.actor }}-v1.0.${{ github.run_number }} # Versionamento semantico simples
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
@@ -45,6 +45,7 @@ jobs:
           DB_NAME: ${{ secrets.DB_NAME }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
           AWS_S3_BUCKET_NAME: ${{ secrets.AWS_S3_BUCKET_NAME }}
+          CONTAINER_NAME: api-backend-${{ github.actor }}
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
@@ -55,15 +56,15 @@ jobs:
             aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
 
             # Para e remove o container antigo
-            docker stop api-backend || true
-            docker rm api-backend || true
+            docker stop $CONTAINER_NAME || true
+            docker rm $CONTAINER_NAME || true
 
             # Puxa a nova imagem
             docker pull $ECR_REGISTRY/$ECR_REPOSITORY:latest
 
             # Roda o novo container injetando os secrets como variaveis de ambiente
             # (AWS_ACCESS_KEY_ID/SECRET nao sao passados: a EC2 usa a IAM Role para acessar o S3)
-            docker run -d --name api-backend \
+            docker run -d --name $CONTAINER_NAME \
               -p 80:3000 \
               -e DB_HOST=$DB_HOST \
               -e DB_USER=$DB_USER \
