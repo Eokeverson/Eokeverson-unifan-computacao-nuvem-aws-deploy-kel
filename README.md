@@ -1,3 +1,16 @@
+name: Deploy Backend API
+on:
+  push:
+    branches: "main"
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
 # Backend - API REST (Node.js + Express)
 
 CRUD simples de `usuarios` + upload de imagens para o S3, conectado a um MySQL no RDS.
